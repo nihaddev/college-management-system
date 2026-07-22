@@ -39,7 +39,8 @@ public class GroupsController {
    @GetMapping("/{id}")
    public ResponseEntity<?> getGroupWithId(@AuthenticationPrincipal Student student,@PathVariable String id, HttpServletResponse response){
        Object getgroup = studentService.getStudentGroupById(String.valueOf(student.getId()),id);
-       return ResponseEntity.ok(Map.of("message", getgroup));
+
+       return ResponseEntity.ok(Map.of("data", getgroup));
 
    }
 }
