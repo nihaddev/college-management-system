@@ -2,6 +2,7 @@ package az.edu.bbkk.backend.controller;
 
 
 import az.edu.bbkk.backend.entity.Student;
+import az.edu.bbkk.backend.entity.groups;
 import az.edu.bbkk.backend.service.StudentService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -36,11 +38,31 @@ public class GroupsController {
 
    }
 
-   @GetMapping("/{id}")
-   public ResponseEntity<?> getGroupWithId(@AuthenticationPrincipal Student student,@PathVariable String id, HttpServletResponse response){
-       Object getgroup = studentService.getStudentGroupById(String.valueOf(student.getId()),id);
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getGroupWithId(
+            @AuthenticationPrincipal Student student,
+            @PathVariable String id,
+            HttpServletResponse response) {
 
-       return ResponseEntity.ok(Map.of("data", getgroup));
 
-   }
+        groups getgroup = studentService.getStudentGroupById(String.valueOf(student.getId()), id);
+
+        Student starostaDetails = studentService.getStudentDetails(getgroup.getStarostaId());
+
+        Map<String, Object> modifiedresponse = new HashMap<>();
+        modifiedresponse.put("id", getgroup.getId());
+        modifiedresponse.put("groupId", getgroup.getGroupId());
+        modifiedresponse.put("name", getgroup.getName());
+        modifiedresponse.put("faculty", getgroup.getFaculty());
+
+        Map<String, String> starostaMap = new HashMap<>();
+        starostaMap.put("name", starostaDetails.getName());
+        starostaMap.put("surname", starostaDetails.getSurname());
+
+        modifiedresponse.put("starosta", starostaMap);
+        modifiedresponse.put("studentsCount", getgroup.getStudentsCounts());
+        modifiedresponse.put("endDate", getgroup.getEndDate());
+
+        return ResponseEntity.ok(Map.of("data", modifiedresponse));
+    }
 }

@@ -1,6 +1,7 @@
 package az.edu.bbkk.backend.service;
 
 import az.edu.bbkk.backend.entity.Student;
+import az.edu.bbkk.backend.entity.groups;
 import az.edu.bbkk.backend.repositories.GroupsRepository;
 import az.edu.bbkk.backend.repositories.StudentRepository;
 import az.edu.bbkk.backend.security.JwtUtil;
@@ -55,6 +56,11 @@ public class StudentService {
         return jwtUtil.generateToken(findUser);
     }
 
+    public Student getStudentDetails(String id) {
+        return studentRepository.findById(Long.valueOf(id))
+                .orElseThrow(() -> new RuntimeException("Tələbə tapılmadı!"));
+    }
+
     public Object getStudentGroup(String studentid){
         String studentGroupId = studentRepository.findById(Long.valueOf(studentid))
                 .map(Student::getGroupId)
@@ -65,8 +71,9 @@ public class StudentService {
 
         return studentGroup;
     }
-    public Object getStudentGroupById(String studentid, String groupid) {
-       String studentGroupId = studentRepository.findById(Long.valueOf(studentid))
+
+    public groups getStudentGroupById(String studentid, String groupid) {
+        String studentGroupId = studentRepository.findById(Long.valueOf(studentid))
                 .map(Student::getGroupId)
                 .orElseThrow(() -> new RuntimeException("Tələbə tapılmadı!"));
 
@@ -74,10 +81,8 @@ public class StudentService {
             throw new RuntimeException("İcazə verilmədi: Bu tələbə qeyd olunan qrupun üzvü deyil!");
         }
 
-         Object studentGroup = groupsRepository.findByGroupId(groupid)
+        return groupsRepository.findByGroupId(groupid)
                 .orElseThrow(() -> new RuntimeException("Qrup tapılmadı!"));
-
-        return studentGroup;
     }
 
 
