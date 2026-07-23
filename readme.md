@@ -2,7 +2,7 @@
 
 /api/auth/register
 
-/api/auth/login/withusername
+/api/auth/login
 
 /api/auth/login/withfincode
 
