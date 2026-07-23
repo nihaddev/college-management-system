@@ -20,6 +20,7 @@ public class StudentUser extends BaseUser {
         return "";
     }
 
+
     @Override
     public String getDashboardRoute() {
         return "/api/v1/student/dashboard";
