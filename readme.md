@@ -12,5 +12,7 @@
 
 /api/auth/email/verify
 
-/api/classes
+/api/groups
+
+/api/groups/:id
 
