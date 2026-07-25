@@ -2,6 +2,7 @@ package az.edu.bbkk.backend.controller;
 
 
 import az.edu.bbkk.backend.entity.Student;
+import az.edu.bbkk.backend.entity.StudentSeminars;
 import az.edu.bbkk.backend.entity.groups;
 import az.edu.bbkk.backend.service.StudentService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -62,6 +63,30 @@ public class GroupsController {
         modifiedresponse.put("starosta", starostaMap);
         modifiedresponse.put("studentsCount", getgroup.getStudentsCounts());
         modifiedresponse.put("endDate", getgroup.getEndDate());
+
+        return ResponseEntity.ok(Map.of("data", modifiedresponse));
+    }
+    @GetMapping("/{id}/seminars")
+    public ResponseEntity<?> getGroupSeminars(
+            @AuthenticationPrincipal Student student,
+            @PathVariable String id,
+            HttpServletResponse response) {
+
+
+        StudentSeminars getgroup = studentService.getStudentSeminarsWithGroupId(String.valueOf(student.getId()), id);
+
+
+        Map<String, Object> modifiedresponse = new HashMap<>();
+        modifiedresponse.put("id", getgroup.getId());
+        modifiedresponse.put("groupId", getgroup.getGroupId());
+        modifiedresponse.put("name", getgroup.getName());
+        modifiedresponse.put("faculty", getgroup.getFaculty());
+        modifiedresponse.put("id", getgroup.getSeminarId());
+        modifiedresponse.put("title", getgroup.getSeminarTitle());
+        modifiedresponse.put("startDate", getgroup.getSeminarStartDate());
+        modifiedresponse.put("endDate", getgroup.getSeminarEndDate());
+        modifiedresponse.put("seminarPointOfStudent", getgroup.getSeminarPointOfStudent());
+
 
         return ResponseEntity.ok(Map.of("data", modifiedresponse));
     }

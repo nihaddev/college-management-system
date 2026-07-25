@@ -53,7 +53,6 @@ public class AuthController {
     @GetMapping("/me")
     public ResponseEntity<?> getMyInfo(@AuthenticationPrincipal Student student) {
         if (student == null) {
-            // (Student) casting-i YIĞIŞDIRIN!
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
                     .body(Map.of("message", "İstifadəçi tapılmadı və ya token keçərsizdir."));
@@ -65,7 +64,7 @@ public class AuthController {
     private void setAuthCookie(HttpServletResponse response, String token) {
         Cookie cookie = new Cookie("bbkk-auth", token);
         cookie.setHttpOnly(true);
-        cookie.setSecure(false); // HTTPS istifadə edəndə true edərsiniz
+        cookie.setSecure(false);
         cookie.setPath("/");
         cookie.setMaxAge(86400); // 1 gün
         response.addCookie(cookie);
