@@ -73,7 +73,9 @@ public class GroupsController {
             HttpServletResponse response) {
 
 
-        StudentSeminars getgroup = studentService.getStudentSeminarsWithGroupId(String.valueOf(student.getId()), id);
+       /* StudentSeminars getgroup = studentService.getStudentSeminarsWithGroupId(String.valueOf(student.getId()), id);
+*/
+        StudentSeminars getgroup = studentService.getStudentSeminarsWithGroupId(id);
 
 
         Map<String, Object> modifiedresponse = new HashMap<>();

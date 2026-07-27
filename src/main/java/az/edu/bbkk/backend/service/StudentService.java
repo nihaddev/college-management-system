@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @Service
 @Validated
-public class StudentService {
+public class StudentService extends BaseService {
     private final StudentRepository studentRepository;
     private final StudentSeminarRepository studentSeminarRepository;
     private final GroupsRepository groupsRepository;
@@ -31,7 +31,7 @@ public class StudentService {
         this.jwtUtil = jwtUtil;
     }
 
-    public  Student registerStudent(@Valid Student regs) {
+    public Student registerStudent(@Valid Student regs) {
         System.out.println("Gələn xam şifrə: " + regs.getPassword());
         String encodePassword = passwordEncoder.encode(regs.getPassword());
         regs.setPassword(encodePassword);
@@ -65,7 +65,8 @@ public class StudentService {
                 .orElseThrow(() -> new RuntimeException("Tələbə tapılmadı!"));
     }
 
-    public Object getStudentGroup(String studentid){
+
+    public Object getStudentGroup(String studentid) {
         String studentGroupId = studentRepository.findById(Long.valueOf(studentid))
                 .map(Student::getGroupId)
                 .orElseThrow(() -> new RuntimeException("Tələbə tapılmadı!"));
@@ -89,8 +90,23 @@ public class StudentService {
                 .orElseThrow(() -> new RuntimeException("Qrup tapılmadı!"));
     }
 
-    public StudentSeminars getStudentSeminarsWithGroupId(String studentid, String groupid) {
-        String studentGroupId = studentRepository.findById(Long.valueOf(studentid))
+    /*  public StudentSeminars getStudentSeminarsWithGroupId(String studentid, String groupid) {
+          String studentGroupId = studentRepository.findById(Long.valueOf(studentid))
+                  .map(Student::getGroupId)
+                  .orElseThrow(() -> new RuntimeException("Tələbə tapılmadı!"));
+
+          if (!studentGroupId.equals(groupid)) {
+              throw new RuntimeException("İcazə verilmədi: Bu tələbə qeyd olunan qrupun üzvü deyil!");
+          }
+          groups getgroup = groupsRepository.findByGroupId(groupid)
+                  .orElseThrow(() -> new RuntimeException("Qrup tapılmadı!"));
+
+          return studentSeminarRepository.findByGroupId(groupid)
+                  .orElseThrow(() -> new RuntimeException("Qrup ucun Seminar tapılmadı!"));
+      }*/
+    public StudentSeminars getStudentSeminarsWithGroupId(String groupid) {
+        Long currentUserId = getCurrentStudentId();
+        String studentGroupId = studentRepository.findById(Long.valueOf(currentUserId))
                 .map(Student::getGroupId)
                 .orElseThrow(() -> new RuntimeException("Tələbə tapılmadı!"));
 
