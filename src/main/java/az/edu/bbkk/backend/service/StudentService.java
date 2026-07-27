@@ -77,7 +77,7 @@ public class StudentService extends BaseService {
         return studentGroup;
     }
 
-    public groups getStudentGroupById(String studentid, String groupid) {
+  /*  public groups getStudentGroupById(String studentid, String groupid) {
         String studentGroupId = studentRepository.findById(Long.valueOf(studentid))
                 .map(Student::getGroupId)
                 .orElseThrow(() -> new RuntimeException("Tələbə tapılmadı!"));
@@ -88,7 +88,22 @@ public class StudentService extends BaseService {
 
         return groupsRepository.findByGroupId(groupid)
                 .orElseThrow(() -> new RuntimeException("Qrup tapılmadı!"));
+    }*/
+
+    public groups getStudentGroupById(String groupid){
+        Long currentUserId = getCurrentStudentId();
+        String studentGroupId = studentRepository.findById(Long.valueOf(currentUserId))
+                .map(Student::getGroupId)
+                .orElseThrow(() -> new RuntimeException("Tələbə tapılmadı!"));
+
+        if (!studentGroupId.equals(groupid)) {
+            throw new RuntimeException("İcazə verilmədi: Bu tələbə qeyd olunan qrupun üzvü deyil!");
+        }
+
+        return groupsRepository.findByGroupId(groupid)
+                .orElseThrow(() -> new RuntimeException("Qrup tapılmadı!"));
     }
+
 
     /*  public StudentSeminars getStudentSeminarsWithGroupId(String studentid, String groupid) {
           String studentGroupId = studentRepository.findById(Long.valueOf(studentid))

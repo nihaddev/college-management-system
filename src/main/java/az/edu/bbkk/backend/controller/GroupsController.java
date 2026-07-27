@@ -25,19 +25,20 @@ public class GroupsController {
     public GroupsController(StudentService studentService) {
         this.studentService = studentService;
     }
-   @GetMapping
-   public ResponseEntity<?> getStudentClasses(@AuthenticationPrincipal Student student,HttpServletResponse response){
-       if (student == null) {
 
-           return ResponseEntity
-                   .status(HttpStatus.UNAUTHORIZED)
-                   .body(Map.of("message", "İstifadəçi tapılmadı və ya token keçərsizdir."));
-       }
-       Object stgroup = studentService.getStudentGroup(String.valueOf(student.getId()));
+    @GetMapping
+    public ResponseEntity<?> getStudentClasses(@AuthenticationPrincipal Student student, HttpServletResponse response) {
+        if (student == null) {
 
-       return ResponseEntity.ok(Map.of("message", stgroup));
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("message", "İstifadəçi tapılmadı və ya token keçərsizdir."));
+        }
+        Object stgroup = studentService.getStudentGroup(String.valueOf(student.getId()));
 
-   }
+        return ResponseEntity.ok(Map.of("message", stgroup));
+
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getGroupWithId(
@@ -46,7 +47,7 @@ public class GroupsController {
             HttpServletResponse response) {
 
 
-        groups getgroup = studentService.getStudentGroupById(String.valueOf(student.getId()), id);
+        groups getgroup = studentService.getStudentGroupById(   id);
 
         Student starostaDetails = studentService.getStudentDetails(getgroup.getStarostaId());
 
@@ -66,6 +67,7 @@ public class GroupsController {
 
         return ResponseEntity.ok(Map.of("data", modifiedresponse));
     }
+
     @GetMapping("/{id}/seminars")
     public ResponseEntity<?> getGroupSeminars(
             @AuthenticationPrincipal Student student,
@@ -73,8 +75,8 @@ public class GroupsController {
             HttpServletResponse response) {
 
 
-       /* StudentSeminars getgroup = studentService.getStudentSeminarsWithGroupId(String.valueOf(student.getId()), id);
-*/
+        /* StudentSeminars getgroup = studentService.getStudentSeminarsWithGroupId(String.valueOf(student.getId()), id);
+         */
         StudentSeminars getgroup = studentService.getStudentSeminarsWithGroupId(id);
 
 
