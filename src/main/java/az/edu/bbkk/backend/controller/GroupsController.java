@@ -47,7 +47,7 @@ public class GroupsController {
             HttpServletResponse response) {
 
 
-        groups getgroup = studentService.getStudentGroupById(   id);
+        groups getgroup = studentService.getStudentGroupById(id);
 
         Student starostaDetails = studentService.getStudentDetails(getgroup.getStarostaId());
 
