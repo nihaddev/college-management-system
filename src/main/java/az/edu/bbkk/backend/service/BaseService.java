@@ -8,11 +8,11 @@ public abstract class BaseService {
     protected Student getCurrentStudent() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        // Long yerinə Student-ə cast edirik:
+
         return (Student) authentication.getPrincipal();
     }
 
-    // Əgər sırf ID lazımdırsa, obyektin üstündən götürürük:
+
     protected Long getCurrentStudentId() {
         return getCurrentStudent().getId();
     }
