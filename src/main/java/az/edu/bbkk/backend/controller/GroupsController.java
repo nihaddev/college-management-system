@@ -1,18 +1,17 @@
 package az.edu.bbkk.backend.controller;
 
 
+import az.edu.bbkk.backend.entity.Seminar;
 import az.edu.bbkk.backend.entity.Student;
 import az.edu.bbkk.backend.entity.StudentSeminars;
 import az.edu.bbkk.backend.entity.groups;
 import az.edu.bbkk.backend.service.StudentService;
+import az.edu.bbkk.backend.service.SeminarService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,9 +20,11 @@ import java.util.Map;
 @RequestMapping("/api/groups")
 public class GroupsController {
     private final StudentService studentService;
+    private final SeminarService seminarService;
 
-    public GroupsController(StudentService studentService) {
+    public GroupsController(StudentService studentService, SeminarService seminarService) {
         this.studentService = studentService;
+        this.seminarService = seminarService;
     }
 
     @GetMapping
@@ -72,24 +73,26 @@ public class GroupsController {
     public ResponseEntity<?> getGroupSeminars(
             @AuthenticationPrincipal Student student,
             @PathVariable String id,
+            @RequestParam(defaultValue = "active") String status,
             HttpServletResponse response) {
 
 
         /* StudentSeminars getgroup = studentService.getStudentSeminarsWithGroupId(String.valueOf(student.getId()), id);
          */
-        StudentSeminars getgroup = studentService.getStudentSeminarsWithGroupId(id);
-
+        //StudentSeminars getgroup = studentService.getStudentSeminarsWithGroupId(id);
+        groups getgroup = studentService.getStudentGroupById(id);
+        if ("active".equalsIgnoreCase(status)) {
+           Seminar activeSeminars = (Seminar) seminarService.getStudentAllActiveSemminars();
+           return ResponseEntity.ok(Map.of("data", activeSeminars));
+        }
 
         Map<String, Object> modifiedresponse = new HashMap<>();
         modifiedresponse.put("id", getgroup.getId());
         modifiedresponse.put("groupId", getgroup.getGroupId());
         modifiedresponse.put("name", getgroup.getName());
         modifiedresponse.put("faculty", getgroup.getFaculty());
-        modifiedresponse.put("id", getgroup.getSeminarId());
-        modifiedresponse.put("title", getgroup.getSeminarTitle());
-        modifiedresponse.put("startDate", getgroup.getSeminarStartDate());
-        modifiedresponse.put("endDate", getgroup.getSeminarEndDate());
-        modifiedresponse.put("seminarPointOfStudent", getgroup.getSeminarPointOfStudent());
+
+
 
 
         return ResponseEntity.ok(Map.of("data", modifiedresponse));

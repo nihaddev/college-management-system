@@ -29,4 +29,6 @@ public class Student {
     private String groupId;
     private String faculty;
     private String password;
+    private String gpa;
+    private String email; // that is education email like: nhdsz123@bbkk.edu.az
 }

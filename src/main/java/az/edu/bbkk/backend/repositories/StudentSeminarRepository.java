@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -14,5 +15,6 @@ public interface StudentSeminarRepository extends JpaRepository<StudentSeminars,
     Optional<StudentSeminars> findByUsername(String username);
     Optional<StudentSeminars> findByGroupId(String groupId);
     Optional<StudentSeminars> findBySeminarId(String seminarId);
+    List<StudentSeminars> findByStudentId(String studentId);
 
 }

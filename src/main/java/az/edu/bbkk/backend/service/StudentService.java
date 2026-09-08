@@ -1,5 +1,6 @@
 package az.edu.bbkk.backend.service;
 
+import az.edu.bbkk.backend.entity.Seminar;
 import az.edu.bbkk.backend.entity.Student;
 import az.edu.bbkk.backend.entity.StudentSeminars;
 import az.edu.bbkk.backend.entity.groups;
@@ -135,5 +136,8 @@ public class StudentService extends BaseService {
                 .orElseThrow(() -> new RuntimeException("Qrup ucun Seminar tapılmadı!"));
     }
 
+    /*public Seminar getActiveStudentSeminarsAll(){
+
+    }*/
 
 }

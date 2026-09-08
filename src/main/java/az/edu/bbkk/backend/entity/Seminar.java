@@ -6,6 +6,8 @@ import lombok.Setter;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
+import java.util.Date;
+
 @Entity
 @Table(name="seminars")
 @Getter                 // Getter-ləri avtomatik generasiya edir
@@ -17,16 +19,18 @@ public class Seminar {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-    private String surname;
-    private String username;
+
 
     private String seminarId;
     private String groupId;
     private String faculty;
     private String seminarTitle;
     private String seminarStartDate;
-    private String seminarEndDate;
+    private Date seminarEndDate;
+    private String teacherId;
+    private String teacherName;
+    private String totalPoints;
+
 
 
 

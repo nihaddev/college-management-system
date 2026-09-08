@@ -10,8 +10,8 @@ import java.util.Optional;
 
 @Repository
 public interface SeminarRepository extends JpaRepository<Seminar,Long> {
-    Optional<Seminar> findByUsername(String username);
     Optional<Seminar> findByGroupId(String groupId);
     Optional<Seminar> findBySeminarId(String seminarId);
     Optional<Seminar> findByFaculty(String faculty);
+
 }

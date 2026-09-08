@@ -17,6 +17,7 @@ public class StudentSeminars {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String studentId;
     private String name;
     private String surname;
     private String username;
@@ -31,6 +32,6 @@ public class StudentSeminars {
     private String seminarStartDate;
     private String seminarEndDate;
     private String seminarPointOfStudent;
-
+    private String resultDate;
 
 }

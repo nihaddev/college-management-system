@@ -12,7 +12,6 @@ public abstract class BaseService {
         return (Student) authentication.getPrincipal();
     }
 
-
     protected Long getCurrentStudentId() {
         return getCurrentStudent().getId();
     }
