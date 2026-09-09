@@ -14,6 +14,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -82,8 +83,8 @@ public class GroupsController {
         //StudentSeminars getgroup = studentService.getStudentSeminarsWithGroupId(id);
         groups getgroup = studentService.getStudentGroupById(id);
         if ("active".equalsIgnoreCase(status)) {
-           Seminar activeSeminars = (Seminar) seminarService.getStudentAllActiveSemminars();
-           return ResponseEntity.ok(Map.of("data", activeSeminars));
+            List<Seminar> activeSeminars = seminarService.getStudentAllActiveSemminars();
+            return ResponseEntity.ok(Map.of("data", activeSeminars));
         }
 
         Map<String, Object> modifiedresponse = new HashMap<>();

@@ -26,7 +26,7 @@ public class Seminar {
     private String faculty;
     private String seminarTitle;
     private String seminarStartDate;
-    private Date seminarEndDate;
+    private String seminarEndDate;
     private String teacherId;
     private String teacherName;
     private String totalPoints;
