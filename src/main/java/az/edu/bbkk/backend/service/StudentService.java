@@ -136,8 +136,6 @@ public class StudentService extends BaseService {
                 .orElseThrow(() -> new RuntimeException("Qrup ucun Seminar tapılmadı!"));
     }
 
-    /*public Seminar getActiveStudentSeminarsAll(){
 
-    }*/
 
 }

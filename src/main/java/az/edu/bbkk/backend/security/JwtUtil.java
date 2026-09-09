@@ -1,6 +1,7 @@
 package az.edu.bbkk.backend.security;
 
 import az.edu.bbkk.backend.entity.Student;
+import az.edu.bbkk.backend.entity.Teacher;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,6 +24,18 @@ public class JwtUtil {
                 .subject(student.getUsername())
                 .claim("id", student.getId())
                 .claim("finCode", student.getFinCode())
+                .issuedAt(new Date())
+                .expiration(new Date(System.currentTimeMillis() + 86400000)) // 1 gün
+                .signWith(key)
+                .compact();
+    }
+    public String generateTeacherToken(Teacher teacher) {
+        SecretKey key = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
+
+        return Jwts.builder()
+                .subject(teacher.getUsername())
+                .claim("id", teacher.getId())
+                .claim("finCode", teacher.getFinCode())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + 86400000)) // 1 gün
                 .signWith(key)

@@ -1,9 +1,9 @@
 package az.edu.bbkk.backend.entity;
 
-public class TeacherUser extends BaseUser {
+public class BaseTeacher extends BaseUser {
     private String department; // Kafedra
 
-    public TeacherUser(Long id, String finCode, String email, String password, String department) {
+    public BaseTeacher(Long id, String finCode, String email, String password, String department) {
         super(id,finCode, email, password, "TEACHER");
         this.department = department;
     }
