@@ -1,15 +1,16 @@
 package az.edu.bbkk.backend.controller;
 
-import az.edu.bbkk.backend.dto.LoginDto;
-import az.edu.bbkk.backend.dto.RegisterDto;
+import az.edu.bbkk.backend.dto.LoginRequestDto;
 import az.edu.bbkk.backend.entity.Student;
 import az.edu.bbkk.backend.service.StudentService;
+import az.edu.bbkk.backend.service.TeacherService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,28 +20,61 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
+
     private final StudentService studentService;
+    private final TeacherService teacherService;
 
-
-    public AuthController(StudentService studentService) {
+    public AuthController(StudentService studentService, TeacherService teacherService) {
         this.studentService = studentService;
+        this.teacherService = teacherService;
     }
 
-
     @PostMapping("/login")
-    public ResponseEntity<?> LoginWithUsername(@Valid @RequestBody Student loginbody, HttpServletResponse response) {
-       // return studentService.loginStudentWithUsername(loginbody);
-        String token = studentService.loginStudentWithUsername(loginbody);
+    public ResponseEntity<?> LoginWithUsername(
+            @Validated(LoginRequestDto.UsernameGroup.class) @RequestBody LoginRequestDto loginbody,
+            HttpServletResponse response) {
+
+        String token = null;
+
+        try {
+
+            token = studentService.loginStudentWithUsername(loginbody);
+        } catch (Exception studentEx) {
+            try {
+
+                token = teacherService.loginTeacherWithUsername(loginbody);
+            } catch (Exception teacherEx) {
+                return ResponseEntity
+                        .status(HttpStatus.UNAUTHORIZED)
+                        .body(Map.of("message", "İstifadəçi adı və ya şifrə yanlışdır."));
+            }
+        }
 
         setAuthCookie(response, token);
         return ResponseEntity.ok(Map.of("message", "Uğurla daxil oldunuz."));
-
     }
 
     @PostMapping("/login/withfincode")
-    public ResponseEntity<?> LoginWithFinCode(@Valid @RequestBody Student loginbody, HttpServletResponse response) {
-      // return studentService.loginStudentWithFin(loginbody);
-        String token = studentService.loginStudentWithFin(loginbody);
+    public ResponseEntity<?> LoginWithFinCode(
+            @Validated(LoginRequestDto.FinCodeGroup.class) @RequestBody LoginRequestDto loginbody,
+            HttpServletResponse response) {
+
+        String token = null;
+
+        try {
+
+            token = studentService.loginStudentWithFin(loginbody);
+        } catch (Exception studentEx) {
+            try {
+
+                token = teacherService.loginTeacherWithFinCode(loginbody);
+            } catch (Exception teacherEx) {
+                return ResponseEntity
+                        .status(HttpStatus.UNAUTHORIZED)
+                        .body(Map.of("message", "FIN kod və ya şifrə yanlışdır."));
+            }
+        }
+
         setAuthCookie(response, token);
         return ResponseEntity.ok(Map.of("message", "Uğurla daxil oldunuz."));
     }
@@ -69,12 +103,11 @@ public class AuthController {
         cookie.setMaxAge(86400); // 1 gün
         response.addCookie(cookie);
     }
-    // BUNU OYRENECEM !
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidation(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getFieldErrors().forEach(err -> errors.put(err.getField(), err.getDefaultMessage()));
         return ResponseEntity.badRequest().body(errors);
     }
-
 }

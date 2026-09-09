@@ -1,5 +1,6 @@
 package az.edu.bbkk.backend.service;
 
+import az.edu.bbkk.backend.dto.LoginRequestDto;
 import az.edu.bbkk.backend.entity.Seminar;
 import az.edu.bbkk.backend.entity.Student;
 import az.edu.bbkk.backend.entity.StudentSeminars;
@@ -39,7 +40,7 @@ public class StudentService extends BaseService {
         return studentRepository.save(regs);
     }
 
-    public String loginStudentWithUsername(@Valid Student loginBody) {
+    public String loginStudentWithUsername(@Valid LoginRequestDto loginBody) {
         Student findUser = studentRepository.findByUsername(loginBody.getUsername())
                 .orElseThrow(() -> new RuntimeException("Bu Usernameilə tələbə tapılmadı!"));
 
@@ -50,7 +51,7 @@ public class StudentService extends BaseService {
         return jwtUtil.generateToken(findUser);
     }
 
-    public String loginStudentWithFin(@Valid Student loginBody) {
+    public String loginStudentWithFin(@Valid LoginRequestDto loginBody) {
         Student findUser = studentRepository.findByFinCode(loginBody.getFinCode())
                 .orElseThrow(() -> new RuntimeException("Bu FİN kod ilə tələbə tapılmadı!"));
 

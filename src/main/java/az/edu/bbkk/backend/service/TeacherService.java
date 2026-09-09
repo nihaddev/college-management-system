@@ -1,6 +1,7 @@
 package az.edu.bbkk.backend.service;
 
 
+import az.edu.bbkk.backend.dto.LoginRequestDto;
 import az.edu.bbkk.backend.entity.Student;
 import az.edu.bbkk.backend.entity.Teacher;
 import az.edu.bbkk.backend.repositories.TeacherRepository;
@@ -29,7 +30,7 @@ public class TeacherService extends BaseService {
         return teacherRepository.save(regs);
     }
 
-    public String loginTeacherWithUsername(@Valid Teacher loginBody) {
+    public String loginTeacherWithUsername(@Valid LoginRequestDto loginBody) {
         Teacher findUser = teacherRepository.findByUsername(loginBody.getUsername())
                 .orElseThrow(() -> new RuntimeException("Bu Username ilə muellim tapılmadı!"));
 
@@ -39,7 +40,7 @@ public class TeacherService extends BaseService {
 
         return jwtUtil.generateTeacherToken(findUser);
     }
-    public String loginTeacherWithFinCode(@Valid Teacher loginBody) {
+    public String loginTeacherWithFinCode(@Valid LoginRequestDto loginBody) {
         Teacher findUser = teacherRepository.findByFinCode(loginBody.getFinCode())
                 .orElseThrow(() -> new RuntimeException("Bu fin code ilə muellim tapılmadı!"));
 
