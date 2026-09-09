@@ -41,7 +41,7 @@ public class SeminarService extends BaseService {
 
             if (seminarDataOpt.isPresent()) {
                 Seminar seminar = seminarDataOpt.get();
-                Date endDate = seminar.getSeminarEndDate();
+                Date endDate = seminar.getSeminarEndDate(); //
 
                 // Əgər bitmə tarixi indiki zamandan sonradırsa (yəni hələ bitməyibsə)
                 if (endDate != null && endDate.after(currentDate)) {
