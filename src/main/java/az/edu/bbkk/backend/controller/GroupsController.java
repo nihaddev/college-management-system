@@ -77,25 +77,12 @@ public class GroupsController {
             @RequestParam(defaultValue = "active") String status,
             HttpServletResponse response) {
 
-
-        /* StudentSeminars getgroup = studentService.getStudentSeminarsWithGroupId(String.valueOf(student.getId()), id);
-         */
-        //StudentSeminars getgroup = studentService.getStudentSeminarsWithGroupId(id);
         groups getgroup = studentService.getStudentGroupById(id);
         if ("active".equalsIgnoreCase(status)) {
             List<Seminar> activeSeminars = seminarService.getStudentAllActiveSemminars();
             return ResponseEntity.ok(Map.of("data", activeSeminars));
         }
-
-        Map<String, Object> modifiedresponse = new HashMap<>();
-        modifiedresponse.put("id", getgroup.getId());
-        modifiedresponse.put("groupId", getgroup.getGroupId());
-        modifiedresponse.put("name", getgroup.getName());
-        modifiedresponse.put("faculty", getgroup.getFaculty());
-
-
-
-
-        return ResponseEntity.ok(Map.of("data", modifiedresponse));
+        List<StudentSeminars> getseminars = seminarService.getAllStudentSeminars();
+        return ResponseEntity.ok(Map.of("data", getseminars));
     }
 }

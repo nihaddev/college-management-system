@@ -57,5 +57,9 @@ public class SeminarService extends BaseService {
         Long currentUserId = getCurrentStudentId();
         return seminarRepository.findActiveSeminarsByStudentId(String.valueOf(currentUserId));
     }
+    public List<StudentSeminars> getAllStudentSeminars() {
+        Long currentUserId = getCurrentStudentId();
+        return studentSeminarRepository.findByStudentId(String.valueOf(currentUserId));
+    }
 
 }
