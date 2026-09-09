@@ -33,14 +33,14 @@ public class SeminarService extends BaseService {
         List<StudentSeminars> studentSeminars = studentSeminarRepository.findByStudentId(String.valueOf(currentUserId));
 
         List<Seminar> activeSeminars = new ArrayList<>();
-        Date currentDate = new Date(); // Anlıq vaxt (İndiki zaman)
+        Date currentDate = new Date();
 
         for (StudentSeminars stuseminar : studentSeminars) {
             Long seminarId = Long.valueOf(stuseminar.getSeminarId());
             Optional<Seminar> seminarDataOpt = seminarRepository.findById(seminarId);
 
             if (seminarDataOpt.isPresent()) {
-                Seminar seminar = seminarDataOpt.get(); // Optional-dan Seminar obyektini alırıq
+                Seminar seminar = seminarDataOpt.get();
                 Date endDate = seminar.getSeminarEndDate();
 
                 // Əgər bitmə tarixi indiki zamandan sonradırsa (yəni hələ bitməyibsə)
@@ -50,7 +50,7 @@ public class SeminarService extends BaseService {
             }
         }
 
-        return activeSeminars; // Aktiv seminarlar siyahısını qaytarırıq
+        return activeSeminars;
     }
 
 }
