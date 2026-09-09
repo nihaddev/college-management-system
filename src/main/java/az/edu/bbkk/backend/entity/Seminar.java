@@ -32,6 +32,4 @@ public class Seminar {
     private String totalPoints;
 
 
-
-
 }
