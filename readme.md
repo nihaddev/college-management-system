@@ -15,4 +15,5 @@
 /api/groups
 
 /api/groups/:id
+/api/groups/:id/seminars ?status= active|ended
 
