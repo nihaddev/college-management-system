@@ -8,17 +8,19 @@ import java.util.Map;
 
 @Service
 @Validated
-public class AdminService {
+public class AdminService extends BaseService {
     private final AdminRepository adminRepository;
 
     public AdminService(AdminRepository adminRepository) {
         this.adminRepository = adminRepository;
     }
-    public Boolean isAdmin(String id){
+    public Boolean isAdmin(){
+        String id = String.valueOf(getCurrentStudentId());
         return adminRepository.existsById(Long.valueOf(id));
     }
-    public String getPermLevel(String id){
-       if (!isAdmin(id))  new RuntimeException("Admin deyil!");
+    public String getPermLevel(){
+        String id = String.valueOf(getCurrentStudentId());
+       if (!isAdmin())  new RuntimeException("Admin deyil!");
         Admins admin = adminRepository.findById(Long.valueOf(id))
                 .orElseThrow(() -> new RuntimeException("Admin tapılmadı!"));
 
@@ -26,8 +28,9 @@ public class AdminService {
     }
 
 
-    public boolean checkPermLevel(String id, String requiredPermission) {
-        if (!isAdmin(id)) {
+    public boolean checkPermLevel(String requiredPermission) {
+        String id = String.valueOf(getCurrentStudentId());
+        if (!isAdmin()) {
             throw new RuntimeException("İcazə yoxdur: İstifadəçi admin deyil!");
         }
 

@@ -2,6 +2,7 @@ package az.edu.bbkk.backend.controller;
 
 import az.edu.bbkk.backend.dto.LoginRequestDto;
 import az.edu.bbkk.backend.entity.Student;
+import az.edu.bbkk.backend.entity.Teacher;
 import az.edu.bbkk.backend.service.StudentService;
 import az.edu.bbkk.backend.service.TeacherService;
 import jakarta.servlet.http.Cookie;
@@ -84,7 +85,7 @@ public class AuthController {
         return studentService.registerStudent(regs);
     }
 
-    @GetMapping("/me")
+  /*  @GetMapping("/me")
     public ResponseEntity<?> getMyInfo(@AuthenticationPrincipal Student student) {
         if (student == null) {
             return ResponseEntity
@@ -93,6 +94,31 @@ public class AuthController {
         }
 
         return ResponseEntity.ok(student);
+    }*/
+
+    @GetMapping("/me")
+    public ResponseEntity<?> getMyInfo(@AuthenticationPrincipal Object principal) {
+        if (principal == null) {
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("message", "İstifadəçi tapılmadı və ya token keçərsizdir."));
+        }
+
+        Map<String, Object> userData = new HashMap<>();
+
+        if (principal instanceof Student student) {
+            userData.put("id", student.getId());
+            userData.put("username", student.getUsername());
+            userData.put("name", student.getName());
+            userData.put("role", "STUDENT");
+        } else if (principal instanceof Teacher teacher) {
+            userData.put("id", teacher.getId());
+            userData.put("username", teacher.getUsername());
+            userData.put("name", teacher.getName());
+            userData.put("role", "TEACHER");
+        }
+
+        return ResponseEntity.ok(Map.of("status", 200, "data", userData));
     }
 
     private void setAuthCookie(HttpServletResponse response, String token) {
