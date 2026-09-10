@@ -28,7 +28,13 @@ public class AdminController {
 
     // Students
     @GetMapping("/students")
-    public ResponseEntity<?> getAllStudents() {
+    public ResponseEntity<?> getAllStudents(@PathVariable String finCode,@PathVariable String username,@PathVariable String name,@PathVariable String surname) {
+        if (!adminService.isAdmin()) {
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("message", "Unauthorized access. Bu əməliyyat üçün admin hüququ tələb olunur."));
+        }
+
         return ResponseEntity.ok(Map.of(
                 "status", 200,
                 "data", studentService.getAllStudents()
