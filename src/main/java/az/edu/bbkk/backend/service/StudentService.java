@@ -9,7 +9,9 @@ import az.edu.bbkk.backend.repositories.GroupsRepository;
 import az.edu.bbkk.backend.repositories.StudentRepository;
 import az.edu.bbkk.backend.repositories.StudentSeminarRepository;
 import az.edu.bbkk.backend.security.JwtUtil;
+import az.edu.bbkk.backend.specification.StudentSpecification;
 import jakarta.validation.Valid;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -36,6 +38,10 @@ public class StudentService extends BaseService {
 
     public List<Student> getAllStudents() {
         return  studentRepository.findAll();
+    }
+    public List<Student> getFilteredStudents(String finCode, String username, String name, String surname) {
+        Specification<Student> spec = StudentSpecification.filterStudents(finCode, username, name, surname);
+        return studentRepository.findAll(spec);
     }
     public Student registerStudent(@Valid Student regs) {
         System.out.println("Gələn xam şifrə: " + regs.getPassword());
