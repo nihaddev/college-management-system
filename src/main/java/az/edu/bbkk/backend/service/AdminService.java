@@ -4,6 +4,7 @@ import az.edu.bbkk.backend.entity.Admins;
 import az.edu.bbkk.backend.repositories.AdminRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+
 import java.util.Map;
 
 @Service
@@ -14,13 +15,15 @@ public class AdminService extends BaseService {
     public AdminService(AdminRepository adminRepository) {
         this.adminRepository = adminRepository;
     }
-    public Boolean isAdmin(){
+
+    public Boolean isAdmin() {
         String id = String.valueOf(getCurrentStudentId());
         return adminRepository.existsById(Long.valueOf(id));
     }
-    public String getPermLevel(){
+
+    public String getPermLevel() {
         String id = String.valueOf(getCurrentStudentId());
-       if (!isAdmin())  new RuntimeException("Admin deyil!");
+        if (!isAdmin()) new RuntimeException("Admin deyil!");
         Admins admin = adminRepository.findById(Long.valueOf(id))
                 .orElseThrow(() -> new RuntimeException("Admin tapılmadı!"));
 
