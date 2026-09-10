@@ -3,6 +3,7 @@ package az.edu.bbkk.backend.controller;
 import az.edu.bbkk.backend.dto.LoginRequestDto;
 import az.edu.bbkk.backend.entity.Student;
 import az.edu.bbkk.backend.entity.Teacher;
+import az.edu.bbkk.backend.service.AdminService;
 import az.edu.bbkk.backend.service.StudentService;
 import az.edu.bbkk.backend.service.TeacherService;
 import jakarta.servlet.http.Cookie;
@@ -24,10 +25,12 @@ public class AuthController {
 
     private final StudentService studentService;
     private final TeacherService teacherService;
+    private final AdminService adminService;
 
-    public AuthController(StudentService studentService, TeacherService teacherService) {
+    public AuthController(StudentService studentService, TeacherService teacherService, AdminService adminService) {
         this.studentService = studentService;
         this.teacherService = teacherService;
+        this.adminService = adminService;
     }
 
     @PostMapping("/login")
@@ -107,14 +110,24 @@ public class AuthController {
         Map<String, Object> userData = new HashMap<>();
 
         if (principal instanceof Student student) {
+            Boolean isAdmin = adminService.isAdmin();
             userData.put("id", student.getId());
             userData.put("username", student.getUsername());
             userData.put("name", student.getName());
+            userData.put("surname", student.getSurname());
+            userData.put("email", student.getEmail());
+            userData.put("finCode", student.getFinCode());
+            if(isAdmin){ userData.put("isAdmin", isAdmin); }
             userData.put("role", "STUDENT");
         } else if (principal instanceof Teacher teacher) {
+            Boolean isAdmin = adminService.isAdmin();
             userData.put("id", teacher.getId());
             userData.put("username", teacher.getUsername());
             userData.put("name", teacher.getName());
+            userData.put("surname", teacher.getSurname());
+            userData.put("email", teacher.getEmail());
+            userData.put("finCode", teacher.getFinCode());
+            if(isAdmin){ userData.put("isAdmin", isAdmin); }
             userData.put("role", "TEACHER");
         }
 

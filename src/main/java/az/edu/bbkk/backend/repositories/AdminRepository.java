@@ -9,4 +9,6 @@ import java.util.Optional;
 @Repository
 public interface AdminRepository extends JpaRepository<Admins,Long> {
     Optional<Admins> findByFinCode(String finCode);
+
+    Boolean existsByFinCode(Long aLong);
 }

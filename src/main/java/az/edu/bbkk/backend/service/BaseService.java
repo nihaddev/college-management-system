@@ -15,4 +15,7 @@ public abstract class BaseService {
     protected Long getCurrentStudentId() {
         return getCurrentStudent().getId();
     }
+    protected String getCurrentStudentFinCode() {
+        return getCurrentStudent().getFinCode();
+    }
 }
