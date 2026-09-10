@@ -35,7 +35,12 @@ public class AdminController {
                     .status(HttpStatus.UNAUTHORIZED)
                     .body(Map.of("message", "Unauthorized access. Bu əməliyyat üçün admin hüququ tələb olunur."));
         }
-
+        String requiredPerm = "dean";
+        if (!adminService.checkPermLevel(requiredPerm)) {
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("message", "Unauthorized access. Bu əməliyyat üçün dekan və ya daha üst hüquq tələb olunur."));
+        }
         Teacher newTeacherResponse = teacherService.createTeacher(teacher);
         return ResponseEntity.ok(Map.of(
                 "status", 200,
