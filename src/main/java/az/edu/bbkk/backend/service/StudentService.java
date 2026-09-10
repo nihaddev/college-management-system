@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -33,6 +34,9 @@ public class StudentService extends BaseService {
         this.jwtUtil = jwtUtil;
     }
 
+    public List<Student> getAllStudents() {
+        return  studentRepository.findAll();
+    }
     public Student registerStudent(@Valid Student regs) {
         System.out.println("Gələn xam şifrə: " + regs.getPassword());
         String encodePassword = passwordEncoder.encode(regs.getPassword());

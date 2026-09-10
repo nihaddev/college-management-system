@@ -1,5 +1,6 @@
 package az.edu.bbkk.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,6 +29,7 @@ public class Student {
     private String dateOfBirth;
     private String groupId;
     private String faculty;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     private String gpa;
     private String email; // that is education email like: nhdsz123@bbkk.edu.az

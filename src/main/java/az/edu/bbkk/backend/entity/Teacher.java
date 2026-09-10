@@ -1,6 +1,7 @@
 package az.edu.bbkk.backend.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,6 +29,7 @@ public class Teacher {
     private String dateOfBirth;
     private String faculty;
     private String email;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     private String joinDate;
     private String leaveDate;

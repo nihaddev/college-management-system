@@ -1,5 +1,6 @@
 package az.edu.bbkk.backend.controller;
 
+import az.edu.bbkk.backend.entity.Student;
 import az.edu.bbkk.backend.entity.Teacher;
 import az.edu.bbkk.backend.service.AdminService;
 import az.edu.bbkk.backend.service.StudentService;
@@ -7,11 +8,9 @@ import az.edu.bbkk.backend.service.TeacherService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -26,6 +25,16 @@ public class AdminController {
         this.teacherService = teacherService;
         this.adminService = adminService;
     }
+
+    // Students
+    @GetMapping("/students")
+    public ResponseEntity<?> getAllStudents() {
+        return ResponseEntity.ok(Map.of(
+                "status", 200,
+                "data", studentService.getAllStudents()
+        ));
+    }
+
 
     // Teacher
     @PostMapping("/teacher/new")
