@@ -16,6 +16,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class StudentSemestr {
     private Long semestrId;
+    private String semestrTitle; // like "2025-2026 Qis Semestr imtahani
 
     private String studentId;
     private String name;
@@ -29,7 +30,7 @@ public class StudentSemestr {
     private String faculty;
 
     private Number semestrGpa;
-
+    private Boolean isAvaliableForStudent;
     private String semestrStartDate;
     private String semestrEndDate;
 }
